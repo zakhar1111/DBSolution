@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace DBWorkAround
@@ -8,13 +10,13 @@ namespace DBWorkAround
     {
         private static void ReadTable(string connectionString)
         {
-            using (var connection = new System.Data.SqlClient.SqlConnection(connectionString))
+            using (var connection = new  SqlConnection(connectionString))
             {
-                using (var sqlData = new System.Data.SqlClient.SqlDataAdapter("SELECT * FROM dbo.Products", connection))
+                using (var sqlData = new  SqlDataAdapter("SELECT * FROM dbo.Products", connection))
                 {
-                    var dataTable = new System.Data.DataTable();
+                    var dataTable = new  DataTable();
                     sqlData.Fill(dataTable);
-                    foreach (System.Data.DataRow row in dataTable.Rows)
+                    foreach ( DataRow row in dataTable.Rows)
                     {
                         Console.WriteLine("Name: {0}, Description : {1}", row["Name"], row["Description"]);
                     }
@@ -24,10 +26,10 @@ namespace DBWorkAround
 
         private static void CreateCommand(string queryString, string connectionString)
         {
-            using (var connection = new System.Data.SqlClient.SqlConnection(connectionString))
+            using (var connection = new  SqlConnection(connectionString))
             {
 
-                using (var command = new System.Data.SqlClient.SqlCommand(queryString, connection))
+                using (var command = new  SqlCommand(queryString, connection))
                 {
                     command.Connection.Open();
                     Console.WriteLine("Connection opened successfully");

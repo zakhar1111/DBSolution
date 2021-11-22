@@ -12,9 +12,9 @@ namespace DBWorkAround
 
     public class StorTestConnection : LinqToDB.Data.DataConnection
     {
-        public StorTestConnection() : //SqlServerTools.CreateDataConnection(Program.ConnectionString2)
-                                      //base(Program.ConnectionString2) 
-            base(LinqToDB.ProviderName.SqlServer2012, Program.ConnectionString2)
+        public StorTestConnection() : //SqlServerTools.CreateDataConnection(Program.StorTestConnectionString)
+                                      //base(Program.StorTestConnectionString) 
+            base(LinqToDB.ProviderName.SqlServer2012, Program.StorTestConnectionString)
 
         { }
 
@@ -31,7 +31,7 @@ namespace DBWorkAround
         {
             using (var db = new StorTestConnection())
             {
-                var notSorted = db.ToDoTables.Select(a => a);
+                var notSorted = db.ToDoTables;
                 //var sorted = db.ToDoTables.OrderByDescending(l =>l.Name).Select(a => a);
                 //var unsortedSelection = from p in db.ToDoTables   select p;
 
@@ -54,9 +54,11 @@ namespace DBWorkAround
             using (var db = new StorTestConnection())
             {
                 //insert expresion tree
-                db.ToDoTables.Insert(
-                    () => new ToDoTable { Name = "Crazy Frog II", CreatedON = DateTime.Now }
-                    );
+                db.ToDoTables.Insert(() => new ToDoTable
+                {
+                    Name = "Crazy Frog II",
+                    CreatedON = DateTime.Now
+                });
             }
         }
 
@@ -66,14 +68,11 @@ namespace DBWorkAround
             {
                 db.ToDoTables
                   .Where(t => t.Name == "Migrate App one")
-                  .Insert(
-                    db.ToDoTables,
-                    t => new ToDoTable
+                  .Insert(db.ToDoTables,t => new ToDoTable
                     {
                         Name = t.Name + "vvv",
                         CreatedON = t.CreatedON.Value.AddDays(1)
-                    }
-                    );
+                    });
             }
         }
 
@@ -97,8 +96,10 @@ namespace DBWorkAround
                 //insert with identity
                 var identity = db.ToDoTables
                     .InsertWithIdentity(() => new ToDoTable
-                    { Name = "Crazy Frog", CreatedON = Sql.CurrentTimestamp }
-                   );
+                    {
+                        Name = "Crazy Frog",
+                        CreatedON = Sql.CurrentTimestamp
+                    });
                 Console.WriteLine("identity");
                 Console.WriteLine(identity);
             }
@@ -111,18 +112,15 @@ namespace DBWorkAround
             {
                 //insert or update
                 var identity = db.ToDoTables
-                    .InsertOrUpdate(
-                    () => new ToDoTable
+                    .InsertOrUpdate(() => new ToDoTable
                     {
                         ID = 8,
                         Name = "Crazy Frog"
                     },
                     t => new ToDoTable
                     {
-
                         Name = "Crazy Frog ZZZZ++++"
-                    }
-                   );
+                    });
                 Console.WriteLine(identity);
 
             }
@@ -134,8 +132,7 @@ namespace DBWorkAround
             // LinqToDB.Linq.LinqException: InsertOrReplace method does not support identity field 'ToDoTable.ID'.
             using (var db = new StorTestConnection())
             {
-                db.InsertOrReplace(
-                    new ToDoTable
+                db.InsertOrReplace(new ToDoTable
                     {
                         ID = 9,
                         Name = "Crazy Fox"
@@ -147,8 +144,7 @@ namespace DBWorkAround
         {
             using (var db = new StorTestConnection())
             {
-                db.Update(
-                    new ToDoTable
+                db.Update(new ToDoTable
                     {
                         ID = 8,
                         Name = "Crazy Fox UpdateRaw ZzZzZz",
@@ -175,9 +171,7 @@ namespace DBWorkAround
             using (var db = new StorTestConnection())
             {
                 db.ToDoTables
-                    .Update(
-                    t => t.ID == 2,
-                    t => new ToDoTable
+                    .Update(t => t.ID == 2,t => new ToDoTable
                     {
                         Name = "Crazy Fox UpdateWhereColumn QQ"
                     });

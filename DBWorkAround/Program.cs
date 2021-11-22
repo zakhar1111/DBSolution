@@ -17,13 +17,13 @@ namespace DBWorkAround
 
     public partial class Program
     {
-        const string ConnectionString =
+        const string AdventureConnectionString =
             @"Data Source=.;Database=AdventureWorksDW2016;Integrated Security=SSPI";
 
-        public const string ConnectionString2 =
+        public const string StorTestConnectionString =
             @"Data Source=(localdb)\ProjectsV13;Database=StorTest;user=DBAuser;password=dbuserpasswordqwWA12!@;";
 
-        const string Con3 = @"Data Source=(localdb)\ProjectsV13;Database=StoreCars;user=DBAuser;password=dbuserpasswordqwWA12!@;";
+        const string StoreCarsConnectionString = @"Data Source=(localdb)\ProjectsV13;Database=StoreCars;user=DBAuser;password=dbuserpasswordqwWA12!@;";
 
 
         static void Main(string[] args)
@@ -32,12 +32,11 @@ namespace DBWorkAround
             TestCRUDE_function();
 
             //OK
-            InnerJoin(Con3);  
+            InnerJoin(StoreCarsConnectionString);  
             
             TestCRUDE_DataConnection();
 
-            //OK   TestSelectADO_MySQLDataReader();
-            //OK   MyDataAdapter.TestReadTable(ConnectionString2, "SELECT * FROM Products");
+            //OK               TestSelectADO_MySQLDataReader();
 
             //ok PrintNumLinq();
             Console.Read();
@@ -47,12 +46,14 @@ namespace DBWorkAround
 
         private static void TestCRUDE_DataConnection()
         {
+            //OK  MyDataAdapter.TestReadTable(StorTestConnectionString, "SELECT * FROM Products");
+
             StorTestConnection.WriteNewColumn();
             StorTestConnection.WriteColumn();
             StorTestConnection.WriteExistedColumnToEnd();
             StorTestConnection.WriteTo();
             StorTestConnection.WriteIdentityRaw();
-            //err StorTestConnection.InserOrUpdateRaw();
+            // StorTestConnection.InserOrUpdateRaw();
             //err StorTestConnection.InsertOrReplaceRaw(); 
             StorTestConnection.UpdateRaw();
 
@@ -64,28 +65,28 @@ namespace DBWorkAround
 
         private static void TestCRUDE_function()
         {
-            //OK             ReadTableWithLinq(ConnectionString2);
+            //OK             ReadTableWithLinq(StorTestConnectionString);
 
 
-            //OK             ReadFromTable(ConnectionString2);
+            //OK             ReadFromTable(StorTestConnectionString);
 
 
-            CreateTable(ConnectionString2);
-            InsertRaw(ConnectionString2);
-            InsertModifiedRaw(ConnectionString2);
-            InsertModifiedRaw2(ConnectionString2);
-            InsertIntoRaw3(ConnectionString2);
-            InsertWithIdentityRaw(ConnectionString2);
+            CreateTable(StorTestConnectionString);
+            InsertRaw(StorTestConnectionString);
+            InsertModifiedRaw(StorTestConnectionString);
+            InsertModifiedRaw2(StorTestConnectionString);
+            InsertIntoRaw3(StorTestConnectionString);
+            InsertWithIdentityRaw(StorTestConnectionString);
 
-            //err InserOrUpdateRaw(ConnectionString2);
-            //err InserOrReplaceRaw(ConnectionString2);
+            //err InserOrUpdateRaw(StorTestConnectionString);
+            //err InserOrReplaceRaw(StorTestConnectionString);
 
-            UpdateRaw(ConnectionString2);
-            UpdateColumn(ConnectionString2);
-            UpdateWhereColumn(ConnectionString2);
-            UpdateWhereSetColumn(ConnectionString2);
-            //UpdateDelete(ConnectionString2);
-            //BulkCopy(ConnectionString2);
+            UpdateRaw(StorTestConnectionString);
+            UpdateColumn(StorTestConnectionString);
+            UpdateWhereColumn(StorTestConnectionString);
+            UpdateWhereSetColumn(StorTestConnectionString);
+            //UpdateDelete(StorTestConnectionString);
+            //BulkCopy(StorTestConnectionString);
         }
 
 
@@ -94,14 +95,17 @@ namespace DBWorkAround
         private static void TestSelectADO_MySQLDataReader()
         {
             //OK 
-            MySQLDataReader.TestSqlConnection(ConnectionString2, "SELECT * FROM Products");
+            MySQLDataReader.TestRunQuery(StorTestConnectionString, "SELECT * FROM Products");
             //OK 
-            MySQLDataReader.TestSqlConnectionAsync(ConnectionString2, "SELECT * FROM Products");
+            MySQLDataReader.TestRunQueryAsync(StorTestConnectionString, "SELECT * FROM Products");
+
+            Console.WriteLine("Run Wrapper");
+            MySQLDataReader.TestWrapperAsync(StorTestConnectionString, "SELECT * FROM Products");
         }
         private static void TestADO_fun()
         {
             //OK   ADO           
-            ReadTable(ConnectionString2);
+            ReadTable(StorTestConnectionString);
         }
 
 

@@ -35,6 +35,7 @@ C:\Users\VsevolodZakharchenko\Desktop\learning\Downloads\SQL
 LINQ CRUD Operations by linq2db
 https://www.youtube.com/watch?v=m--oX73EGeQ&ab_channel=IgorTkachev
 https://linq2db.github.io/
+https://github.com/linq2db
 
 Unhandled Exception: LinqToDB.LinqToDBException: Configuration 'StorTest' is not defined.
 
@@ -43,3 +44,20 @@ http://blog.linq2db.com/2014/08/linq-to-sqlserver.html
 http://blog.linq2db.com/2014/08/linq-to-sqlserver.html
 https://linq2db.github.io/articles/releasenotes/2.0.0.html
 https://github.com/linq2db/linq2db/wiki/Introduction
+
+
+Task to mondey 
+https://github.com/linq2db/linq2db/issues/3355
+https://pvs-studio.com/en/blog/posts/csharp/0887/
+
+
+public override ISqlTableSource? GetTableSource(ISqlTableSource table)
+{
+  ....
+  if (table == _update?.Table)
+  true 
+     - table == _update?.Table as ISqlTableSource obj
+	 - table == _update?.Table as Nullable obj
+    return _update.Table;
+  ....
+}

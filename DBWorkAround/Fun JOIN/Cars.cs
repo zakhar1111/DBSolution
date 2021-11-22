@@ -11,8 +11,8 @@ namespace DBWorkAround
         [Column, Nullable] public string Name;
         [Column, Nullable] public string Color;
         [Column] public int OwnerName;
-        // [Association(ThisKey =nameof(OwnerNameID), OtherKey = nameof(Owners.id))]
-        // public Owners OwnerNameID { get; set; }
+        [Association(ThisKey =nameof(OwnerName), OtherKey = nameof(Owners.id))]
+         public Owners OwnerNameID { get; set; }
 
         public override string ToString()
         {

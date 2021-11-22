@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace DBWorkAround
 {
     public class MyDataAdapter
     {
-        //string connectionStr;
-        //string sqlExpressionStr;
-
         DataTable dataTable;
         public MyDataAdapter(string connectionString, string sqlCmd)
         {
-            // connectionStr = connectionStr;
-            //sqlExpressionStr = sqlCmd;
             this.dataTable = new DataTable();
 
-            using (var connection = new System.Data.SqlClient.SqlConnection(connectionString))
+            using (var connection = new  SqlConnection(connectionString))
             {
-                using (var sqlData = new System.Data.SqlClient.SqlDataAdapter(sqlCmd, connection))
+                using (var sqlData = new  SqlDataAdapter(sqlCmd, connection))
                 {
                     sqlData.Fill(this.dataTable);
                 }

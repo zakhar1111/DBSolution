@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -7,20 +8,20 @@ namespace DBWorkAround
 {
     public class MySQLDataReader
     {
-        string connection;
+        readonly string connectionString;
         public MySQLDataReader(string connectionString)
         {
-            connection = connectionString;
+            this.connectionString = connectionString;
         }
 
-        public void SelectComand(string cmdExpression)
+        public void RunQuery(string SqlQuery)
         {
-            using (var connectionObj = new System.Data.SqlClient.SqlConnection(this.connection))
+            using (var connection = new  SqlConnection(this.connectionString))
             {
-                connectionObj.Open();
-                var cmd = new System.Data.SqlClient.SqlCommand(cmdExpression, connectionObj);
+                connection.Open();
+                var cmd = new  SqlCommand(SqlQuery, connection);
 
-                using (System.Data.SqlClient.SqlDataReader readerObj = cmd.ExecuteReader())
+                using ( SqlDataReader readerObj = cmd.ExecuteReader())
                 {
                     if (readerObj.HasRows)
                     {
@@ -28,23 +29,23 @@ namespace DBWorkAround
                     }
                     while (readerObj.Read())
                     {
-                        object id = readerObj["ProductID"];
-                        object name = readerObj["Name"];
-                        object description = readerObj["Description"];
+                        int id = (int) readerObj["ProductID"];
+                        string name = (string) readerObj["Name"];
+                        string description = (string) readerObj["Description"];
                         Console.WriteLine("{0} \t{1} \t{2}", id, name, description);
                     }
                 }
             }
         }
 
-        public async Task SelectCommandAsync(string cmdExpression)
+        public async Task RunQueryAsync(string cmdExpression)
         {
-            using (var connectionObj = new System.Data.SqlClient.SqlConnection(this.connection))
+            using (var connectionObj = new  SqlConnection(this.connectionString))
             {
                 await connectionObj.OpenAsync();
-                var cmd = new System.Data.SqlClient.SqlCommand(cmdExpression, connectionObj);
+                var cmd = new  SqlCommand(cmdExpression, connectionObj);
 
-                using (System.Data.SqlClient.SqlDataReader readerObj = await cmd.ExecuteReaderAsync())
+                using ( SqlDataReader readerObj = await cmd.ExecuteReaderAsync())
                 {
                     if (readerObj.HasRows)
                     {
@@ -52,25 +53,40 @@ namespace DBWorkAround
                     }
                     while (await readerObj.ReadAsync())
                     {
-                        object id = readerObj["ProductID"];
-                        object name = readerObj["Name"];
-                        object description = readerObj["Description"];
+                        int id = (int) readerObj["ProductID"];
+                        string name = (string) readerObj["Name"];
+                        string description = (string) readerObj["Description"];
                         Console.WriteLine("{0} \t{1} \t{2}", id, name, description);
                     }
                 }
             }
         }
 
-        public static void TestSqlConnection(string strConnection, string strSqlCmd)
+        public async Task WrapperRunQueryAsync(string sqlQuery)
         {
-            var sqlConnection = new MySQLDataReader(strConnection);
-            sqlConnection.SelectComand(strSqlCmd);
+            //Action<string> RunQueryDelegate =
+            await Task.Run(() => MySQLDataReader.TestRunQuery(Program.StorTestConnectionString, sqlQuery));
         }
 
-        public static void TestSqlConnectionAsync(string strConnection, string strSqlCmd)
+       
+
+        public static void TestRunQuery(string strConnection, string strSqlCmd)
         {
             var sqlConnection = new MySQLDataReader(strConnection);
-            sqlConnection.SelectCommandAsync(strSqlCmd).GetAwaiter();
+            sqlConnection.RunQuery(strSqlCmd);
+        }
+
+        public static void TestRunQueryAsync(string strConnection, string strSqlCmd)
+        {
+            var sqlConnection = new MySQLDataReader(strConnection);
+            sqlConnection.RunQueryAsync(strSqlCmd).GetAwaiter();
+
+        }
+
+        public static void TestWrapperAsync(string strConnection, string sqlQuery)
+        {
+            var sqlConnection = new MySQLDataReader(strConnection);
+            sqlConnection.WrapperRunQueryAsync(sqlQuery).GetAwaiter() ;
         }
 
     }
