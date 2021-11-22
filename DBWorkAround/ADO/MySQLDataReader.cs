@@ -68,7 +68,15 @@ namespace DBWorkAround
             await Task.Run(() => MySQLDataReader.TestRunQuery(Program.StorTestConnectionString, sqlQuery));
         }
 
-       
+        public async Task WrapperRunQueryAsync2(string sqlQuery)
+        {
+            Action<string> RunQueryDelegate = (query) => { RunQuery(query); };
+            //await Task.Run(RunQueryDelegate);
+            Action RunQueryEmptyArgsDelegate = () => { RunQuery(sqlQuery); };
+            await Task.Run(RunQueryEmptyArgsDelegate);
+        }
+
+
 
         public static void TestRunQuery(string strConnection, string strSqlCmd)
         {
@@ -87,6 +95,12 @@ namespace DBWorkAround
         {
             var sqlConnection = new MySQLDataReader(strConnection);
             sqlConnection.WrapperRunQueryAsync(sqlQuery).GetAwaiter() ;
+        }
+
+        public static void TestRunQueryWraper(string strConnection, string strSqlCmd)
+        {
+            var sqlConnection = new MySQLDataReader(strConnection);
+            sqlConnection.WrapperRunQueryAsync2(strSqlCmd).GetAwaiter();
         }
 
     }

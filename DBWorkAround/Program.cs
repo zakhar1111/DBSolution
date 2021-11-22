@@ -36,7 +36,8 @@ namespace DBWorkAround
             
             TestCRUDE_DataConnection();
 
-            //OK               TestSelectADO_MySQLDataReader();
+            //OK               
+            TestSelectADO_MySQLDataReader();
 
             //ok PrintNumLinq();
             Console.Read();
@@ -100,7 +101,9 @@ namespace DBWorkAround
             MySQLDataReader.TestRunQueryAsync(StorTestConnectionString, "SELECT * FROM Products");
 
             Console.WriteLine("Run Wrapper");
-            MySQLDataReader.TestWrapperAsync(StorTestConnectionString, "SELECT * FROM Products");
+            //MySQLDataReader.TestWrapperAsync(StorTestConnectionString, "SELECT * FROM Products");
+
+            MySQLDataReader.TestRunQueryWraper(StorTestConnectionString, "SELECT * FROM Products");
         }
         private static void TestADO_fun()
         {
