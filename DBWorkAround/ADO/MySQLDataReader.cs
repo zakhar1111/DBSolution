@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DBWorkAround
 {
-    public class MySQLDataReader
+    public partial class MySQLDataReader
     {
         readonly string connectionString;
         public MySQLDataReader(string connectionString)
@@ -71,37 +71,13 @@ namespace DBWorkAround
         public async Task WrapperRunQueryAsync2(string sqlQuery)
         {
             Action<string> RunQueryDelegate = (query) => { RunQuery(query); };
+             
             //await Task.Run(RunQueryDelegate);
             Action RunQueryEmptyArgsDelegate = () => { RunQuery(sqlQuery); };
             await Task.Run(RunQueryEmptyArgsDelegate);
         }
 
 
-
-        public static void TestRunQuery(string strConnection, string strSqlCmd)
-        {
-            var sqlConnection = new MySQLDataReader(strConnection);
-            sqlConnection.RunQuery(strSqlCmd);
-        }
-
-        public static void TestRunQueryAsync(string strConnection, string strSqlCmd)
-        {
-            var sqlConnection = new MySQLDataReader(strConnection);
-            sqlConnection.RunQueryAsync(strSqlCmd).GetAwaiter();
-
-        }
-
-        public static void TestWrapperAsync(string strConnection, string sqlQuery)
-        {
-            var sqlConnection = new MySQLDataReader(strConnection);
-            sqlConnection.WrapperRunQueryAsync(sqlQuery).GetAwaiter() ;
-        }
-
-        public static void TestRunQueryWraper(string strConnection, string strSqlCmd)
-        {
-            var sqlConnection = new MySQLDataReader(strConnection);
-            sqlConnection.WrapperRunQueryAsync2(strSqlCmd).GetAwaiter();
-        }
 
     }
 }
