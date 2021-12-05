@@ -47,7 +47,9 @@ https://github.com/linq2db/linq2db/wiki/Introduction
 
 
 Task to mondey 
+- Bug report from PVS-Studio #3355
 https://github.com/linq2db/linq2db/issues/3355
+- report
 https://pvs-studio.com/en/blog/posts/csharp/0887/
 
 
@@ -61,3 +63,21 @@ public override ISqlTableSource? GetTableSource(ISqlTableSource table)
     return _update.Table;
   ....
 }
+
+- contribution 
+https://github.com/linq2db/linq2db/wiki/How-can-I-help
+- contribute rules
+https://github.com/linq2db/linq2db/blob/master/CONTRIBUTING.md
+- check tests for GetTableSource if they work
+
+
+fixed - PVS-Studio #3355
+https://github.com/linq2db/linq2db/pull/3363
+ https://github.com/linq2db/linq2db/commit/f5385187058b2edf323435fc2801c7dd2b47ff93#diff-9dedcbf5a71b1d003b0735e944fe22906db77a533ca6234ad1213eb97d747888L64
+
+
+ Check issues marked as up-for-grabs or good first issue
+ 
+ @----------------------------------------------------
+ Take new Issue - NullReferenceException
+ https://github.com/linq2db/linq2db/issues/3371

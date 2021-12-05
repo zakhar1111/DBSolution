@@ -1,4 +1,5 @@
-﻿using LinqToDB.DataProvider.SqlServer;
+﻿using LinqToDB.Data;
+using LinqToDB.DataProvider.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,34 +14,44 @@ namespace DBWorkAround
             Console.WriteLine("----------------Inner JOIN ----------------");
             using (var db = SqlServerTools.CreateDataConnection(con))
             {
-                //var query = 
-                /*from p in db.GetTable<Cars>()
+                var query = 
+                from p in db.GetTable<Cars>()
                         join pp in db.GetTable<Owners>() 
-                        on p.OwmerName equals pp.id.ToString()  
+                        on p.OwnerName equals pp.id
                         select new
                         {
                             Name = p.Name,
                             Color = p.Color,
-                            OwnerName = c.id.ToString(),
-                            Owner = c.Owner
+                            OwnerName = pp.id.ToString(),
+                            Owner = pp.Owner,
+                            ID = pp.id
                         };
-                         */
+                foreach (var elem in query)
+                {
+                    Console.WriteLine($"Name : {elem.Name},Color : {elem.Color}, OwnerName : {elem.OwnerName}, Owner: {elem.Owner}, ID: {elem.ID}");
+                }
+                Console.WriteLine($"{DataConnection.TraceSwitch.ToString()}");
+
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~Print Cars Table~~~~~~~~~~~~~~~~~");
                 var q = db.GetTable<Cars>().Select(n => n);
                 foreach (var elem in q)
                 {
                     Console.WriteLine(elem.ToString());
                 }
 
-                q = from c in db.GetTable<Cars>()
+                /*
+                Console.WriteLine("+++++++++++++++++++++Print Cars & Owners Joins++++++++++++++++");
+                var qq = from c in db.GetTable<Cars>()
                     join pp in db.GetTable<Owners>() 
                     on c.OwnerName equals pp.id
                     where pp.id > 0
                     select c;
 
-                foreach (var elem in q)
+                foreach (var elem in qq)
                 {
                     Console.WriteLine($"Name : {elem.Name},Color : {elem.Color}, OwnerName : {elem.OwnerName}");
                 }
+                */
             }
         }
     }

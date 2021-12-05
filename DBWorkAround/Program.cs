@@ -1,22 +1,36 @@
 ﻿//using LinqToDB.DataProvider.SqlServer;
 using LinqToDB;
- 
-using LinqToDB.Data;
-using LinqToDB.DataProvider.SqlServer;
-using LinqToDB.Mapping;
 using System;
-//using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Diagnostics;
-//using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace DBWorkAround
 {
-
-    public partial class Program
+    /*
+    public static class Trace
     {
+        private static object message;
+        private static object displayName;
+
+        static Trace()
+        {
+            DataConnection.TurnTraceSwitchOn();
+            Action<string,string, TraceLevel> d = (message, displayName, (TraceLevel)4) => 
+            {
+                Console.WriteLine($"{message} {displayName}");
+            };
+            DataConnection.WriteTraceLine = d;
+        }
+    }
+    */
+    public partial class Program
+
+    {
+
+        //private static Trace st = new Trace();
+
         const string AdventureConnectionString =
             @"Data Source=.;Database=AdventureWorksDW2016;Integrated Security=SSPI";
 
@@ -29,17 +43,22 @@ namespace DBWorkAround
         static void Main(string[] args)
         {
 
-            TestCRUDE_function();
+            //TestCRUDE_function();
 
             //OK
-            InnerJoin(StoreCarsConnectionString);  
-            
-            TestCRUDE_DataConnection();
+            //InnerJoin(StoreCarsConnectionString);  
+
+            // TestCRUDE_DataConnection();
 
             //OK               
-            TestSelectADO_MySQLDataReader();
+            //TestSelectADO_MySQLDataReader();
 
             //ok PrintNumLinq();
+
+            //Reproduced  Db.Test();
+
+            Db.Reproduce3371();
+
             Console.Read();
         }
 
@@ -66,6 +85,9 @@ namespace DBWorkAround
 
         private static void TestCRUDE_function()
         {
+
+            
+
             //OK             ReadTableWithLinq(StorTestConnectionString);
 
 
@@ -133,9 +155,7 @@ namespace DBWorkAround
         }
     }
 
-   
-
-   
-
  
 }
+ 
+ 
