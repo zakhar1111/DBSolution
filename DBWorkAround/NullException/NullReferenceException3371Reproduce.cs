@@ -12,57 +12,6 @@ namespace DBWorkAround
 {
     public partial class Db
     {
-        public static void Test()
-        {
-            var builder = MappingSchema.Default.GetFluentMappingBuilder();
-
-            builder.Entity<Employee>()
-                 .Association(x => x.PayRate, x => x.PayRateId, x => x.Id);
-
-            builder.Entity<PayRate>();
-
-
-            using (var db = new Db())
-            {
-                var queryNavProp = db.Employees
-                    .Select(x => new
-                    {
-                        x.Id,
-                        PayRate = x.PayRate == null // nav property
-                        ? null
-                        : new
-                        {
-                            x.Id,
-                            x.PayRate.Name,
-                        }
-                    })
-                    .Where(item => item.PayRate.Name.Equals("test"));
-
-                var good = queryNavProp.ToList();
-
-                var queryFK = db.Employees
-                    .Select(x => new
-                    {
-                        x.Id,
-                        PayRate = x.PayRateId == null // FK property
-                        ? null
-                        : new
-                        {
-                            x.Id,
-                            x.PayRate.Name,
-                        }
-                    })
-                    .Where(item => item.PayRate.Name.Equals("test"));
-
-                var bad = queryFK.ToList(); // System.NullReferenceException
-            }
-        }
-
-
-
-
-
-
         public static void CreateFixtureToReproduce(string con)
         {
             using (var db = SqlServerTools.CreateDataConnection(con))
