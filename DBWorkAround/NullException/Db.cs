@@ -20,10 +20,5 @@ namespace DBWorkAround
 
         public ITable<Employee2> Employees2 => GetTable<Employee2>();
 
-       
-
-
-
-
     }
 }

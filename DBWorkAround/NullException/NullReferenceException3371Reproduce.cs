@@ -77,7 +77,7 @@ namespace DBWorkAround
                             x.PayRate.Name,
                         }
                     })
-                    .Where(item => item.PayRate.Name.Equals("test"));
+                    .Where(item => item.PayRate.Name.Equals("good-test"));
                 //.Where(Compare());
 
                 var good = queryNavProp.ToList();
@@ -85,7 +85,7 @@ namespace DBWorkAround
                 foreach (var item in good)
                 {
                     var strRepresent = $"Id: {item.Id}, PayRateId:  {item.PayRate.Id}, PayRateName: {item.PayRate.Name}";
-                    Console.WriteLine(strRepresent);
+                    Console.WriteLine($"Id: {item.Id}, PayRateId:  {item.PayRate.Id}, PayRateName: {item.PayRate.Name}");
                 }
 
                 var queryFK = db.Employees2
@@ -100,15 +100,15 @@ namespace DBWorkAround
                             x.PayRate.Name,
                         }
                     })
-                    //.Where(item => item.PayRate.Name.Equals("test"));
-                    .Where( item => item.Id == 0 );
+                    .Where(item => item.PayRate.Name.Equals("bad-test"));
+                    //.Where( item => item.Id == 0 );
                      
 
                 var bad = queryFK.ToList(); // System.NullReferenceException
 
                 foreach (var item in bad)
                 {
-                    var strRepresent = $"Id: {item.Id}, PayRateId:  {item.PayRate.Id}, PayRateName: {item.PayRate.Name}";
+                    var strRepresent = $"Id: {item.Id}, PayRateId:  {item?.PayRate?.Id}, PayRateName: {item?.PayRate?.Name}";
                     Console.WriteLine(strRepresent);
                 }
 
