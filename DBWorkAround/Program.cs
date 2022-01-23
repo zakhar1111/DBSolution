@@ -53,11 +53,16 @@ namespace DBWorkAround
             //OK               
             //TestSelectADO_MySQLDataReader();
 
-            //ok PrintNumLinq();
+            //ok             PrintNumLinq();
 
             //Reproduced  Db.Test();
 
-            Db.Reproduce3371();
+                         Db.Reproduce3371();
+
+            //ConcatExpresion.ConcatExpresionTest();
+           // FSharpTranspiler.TranstateTest();
+           // RewritingExpression.TraverseExpressionTest();
+           // RewritingExpression.RewriteExpressionTest();
 
             Console.Read();
         }
@@ -137,8 +142,9 @@ namespace DBWorkAround
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         private static void PrintNumLinq()
         {
-            var temp = Enumerable.Range(0, 100);
-            temp.Select(o => o);
+            var temp = Enumerable.Range(0, 15);
+            Func<int, bool> condition = o => (o % 5) == 0;
+            temp =  temp.Where(condition);
             foreach (var a in temp)
                 Console.WriteLine(a);
 

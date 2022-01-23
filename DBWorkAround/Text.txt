@@ -75,9 +75,92 @@ fixed - PVS-Studio #3355
 https://github.com/linq2db/linq2db/pull/3363
  https://github.com/linq2db/linq2db/commit/f5385187058b2edf323435fc2801c7dd2b47ff93#diff-9dedcbf5a71b1d003b0735e944fe22906db77a533ca6234ad1213eb97d747888L64
 
+ [TODO] -  Visitor example -  https://github.com/anetegithub/Linq/
+ [TODO] - Expression tree example - https://github.com/zspitz/ExpressionTreeToString
 
  Check issues marked as up-for-grabs or good first issue
  
  @----------------------------------------------------
  Take new Issue - NullReferenceException
  https://github.com/linq2db/linq2db/issues/3371
+ https://githubmemory.com/@sdanyliv
+
+ [OK] -- Created test 3371
+ https://github.com/linq2db/linq2db/pull/3377
+ https://github.com/linq2db/linq2db/milestone/61
+ https://github.com/zakhar1111/linq2db/commit/e1bd103379c073e1a6b60113e02e8811329f00bd
+
+ @@[OK] PayRate = x.PayRate == null // nav property
+-- SQLite.Classic SQLite
+
+SELECT
+	[item].[Id],
+	[a_PayRate].[Id],
+	[a_PayRate].[Name]
+FROM
+	[Employee] [item]
+		LEFT JOIN [PayRate] [a_PayRate] ON [item].[PayRateId] = [a_PayRate].[Id]
+WHERE
+	[a_PayRate].[Name] = 'test'
+
+--  SqlServer.2012
+SELECT
+	[item].[Id],
+	[a_PayRate].[Id],
+	[a_PayRate].[Name]
+FROM
+	[Employee2] [item]
+		LEFT JOIN [PayRate2] [a_PayRate] ON [item].[PayRateId] = [a_PayRate].[Id]
+WHERE
+	[a_PayRate].[Name] = N'test'
+
+
+.Lambda #Lambda1<System.Func`2[Tests.Playground.Issue3371Tests+Employee,<>f__AnonymousType0`2[System.Int32,<>f__AnonymousType1`2[System.Int32,System.String]]]>(Tests.Playground.Issue3371Tests+Employee $x)
+{
+    .New <>f__AnonymousType0`2[System.Int32,<>f__AnonymousType1`2[System.Int32,System.String]](
+        $x.Id,
+        .If ($x.PayRate == null) {
+            null
+        } .Else {
+            .New <>f__AnonymousType1`2[System.Int32,System.String](
+                $x.Id,
+                ($x.PayRate).Name)
+        })
+}
+
+##############################################################
+
+--  SqlServer.2012
+SELECT
+	[item].[Id],
+	[item].[PayRateId],
+	[a_PayRate].[Name]
+FROM
+	[Employee2] [item]
+		LEFT JOIN [PayRate2] [a_PayRate] ON [item].[PayRateId] = [a_PayRate].[Id]
+WHERE
+    [a_PayRate].[Name] = N'test'
+
+	[item].[Id] = 0
+
+
+.Lambda #Lambda1<System.Func`2[Tests.Playground.Issue3371Tests+Employee,<>f__AnonymousType0`2[System.Int32,<>f__AnonymousType1`2[System.Int32,System.String]]]>(Tests.Playground.Issue3371Tests+Employee $x)
+{
+    .New <>f__AnonymousType0`2[System.Int32,<>f__AnonymousType1`2[System.Int32,System.String]](
+        $x.Id,
+        .If ($x.PayRateId == null) {
+            null
+        } .Else {
+            .New <>f__AnonymousType1`2[System.Int32,System.String](
+                $x.Id,
+                ($x.PayRate).Name)
+        })
+}
+
+.If ($x.PayRateId == null) {
+    null
+} .Else {
+    .New <>f__AnonymousType1`2[System.Int32,System.String](
+        $x.Id,
+        ($x.PayRate).Name)
+}

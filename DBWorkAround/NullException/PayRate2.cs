@@ -8,5 +8,10 @@ namespace DBWorkAround.NullException
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public PayRate2()
+        {
+            Name = string.Empty;
+        }
     }
 }
