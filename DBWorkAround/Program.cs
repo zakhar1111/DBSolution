@@ -1,4 +1,5 @@
 ﻿//using LinqToDB.DataProvider.SqlServer;
+using DBWorkAround.Quarable;
 using LinqToDB;
 using System;
 using System.Data;
@@ -57,7 +58,9 @@ namespace DBWorkAround
 
             //Reproduced  Db.Test();
 
-            Db.Reproduce3371();
+            //Db.Reproduce3371(); 
+
+            FakeSimpleQueryable.TestQuarable();
 
             Console.Read();
         }
