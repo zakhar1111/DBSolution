@@ -1,4 +1,5 @@
 ﻿//using LinqToDB.DataProvider.SqlServer;
+using DBWorkAround._3394_reproduce;
 using LinqToDB;
 using System;
 using System.Data;
@@ -55,14 +56,25 @@ namespace DBWorkAround
 
             //ok             PrintNumLinq();
 
-            //Reproduced  Db.Test();
 
-                         Db.Reproduce3371();
+
+            //Reproduced  Db.Test();
+            //Db.Reproduce3371();
+            Reproduce3394.Good3394Test();
+            Reproduce3394.Reproduce3394Test();
+
+
+
+
+
+
+
+
 
             //ConcatExpresion.ConcatExpresionTest();
-           // FSharpTranspiler.TranstateTest();
-           // RewritingExpression.TraverseExpressionTest();
-           // RewritingExpression.RewriteExpressionTest();
+            // FSharpTranspiler.TranstateTest();
+            // RewritingExpression.TraverseExpressionTest();
+            // RewritingExpression.RewriteExpressionTest();
 
             Console.Read();
         }
