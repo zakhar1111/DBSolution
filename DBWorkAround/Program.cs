@@ -60,8 +60,8 @@ namespace DBWorkAround
 
             //Reproduced  Db.Test();
             //Db.Reproduce3371();
-            Reproduce3394.Good3394Test();
-            Reproduce3394.Reproduce3394Test();
+            Reproduce3394.Reproduce3394TestGood();
+            Reproduce3394.Reproduce3394TestBroken();
 
 
 
