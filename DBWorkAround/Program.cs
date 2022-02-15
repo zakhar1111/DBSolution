@@ -57,7 +57,9 @@ namespace DBWorkAround
 
             //Reproduced  Db.Test();
 
-            Db.Reproduce3371();
+            //Db.Reproduce3371();
+            BuildAndInterpret();
+
 
             Console.Read();
         }
